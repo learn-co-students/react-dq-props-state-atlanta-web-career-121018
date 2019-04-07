@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Button } from 'semantic-ui-react'
 import normalBaby from './assets/unadulterated-hoglette.png'
 import SunBaby from './assets/sun-eyes.png'
 import BlueBaby from './assets/blue-eyes.png'
@@ -10,35 +9,41 @@ import GlowingBaby from './assets/glowing-eyes.png'
 
 export default class BabyHog extends Component {
 
-  constructor(props) {
-    super(props)
-  }
+    state = {
+        weight: 30
+    }
 
-  changeWeight = (e) => {
-    // nothing needs to change here
-    const newWeight = e.target.name === "+" ? (this.state.weight + 10) : (this.state.weight - 10)
-    this.setState({
-      weight: newWeight
-    })
-  }
+    changeWeight = (e) => {
+        // nothing needs to change here
+        const newWeight = e.target.name === "+" ? (this.state.weight + 10) : (this.state.weight - 10)
+        this.setState({ weight: newWeight })
+    }
+
+    handleBabyPic = () => {
+        if(this.props.eyeColor === 'blue') {
+            return BlueBaby
+        } else if (this.props.eyeColor === 'sun') {
+            return SunBaby
+        } else if (this.props.eyeColor === 'glowing') {
+            return GlowingBaby
+        } else if (this.props.eyeColor === 'normal') {
+            return normalBaby
+        }
+    }
 
   render() {
     return (
       <li className="hogbabies">
-        <h1>Name</h1>
-        <h3>Weight:</h3>
-        <h3>Hobby:</h3>
-        <h4>Eye Color:</h4>
+        <h1>Name {this.props.hog.name}</h1>
+        <h3>Weight: {this.state.weight} lbs</h3>
+        <h3>Hobby: {this.props.hog.hobby}</h3>
+            <h4>Eye Color: {this.props.eyeColor}</h4>
           
-        <Button name="+">
-          Increase Weight
-        </Button>
-        <Button name="-">
-          Decrease Weight
-        </Button>
+        <button name="+" onClick={this.changeWeight}>Increase Weight</button>
+        <button name="-" onClick={this.changeWeight}>Decrease Weight</button>
 
         <div className="hb-wrap">
-          <img src={normalBaby} style={{height: '200px'}} alt="MasterBlasterJrJr" />
+            <img src={this.handleBabyPic()} style={{height: '200px'}} alt="MasterBlasterJrJr" />
         </div>
         
       </li>
